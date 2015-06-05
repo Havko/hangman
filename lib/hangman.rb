@@ -10,34 +10,31 @@ word = pick_random_line
 word_array = word.split(//)
 
 guesses = 6
-display = word.gsub(/[a-zA-Z]/ ,"_ ")
-display = display.split
-h = Hash[word_array.zip(display)]
+win = false
+display = Array.new((word.length - 1), '_')
+incorrect = []
+puts word
 
 
 
-
-
-  while (guesses != 0)
- 
-  h.each do |k, v|
-  	puts v
-  end
+  while (guesses != 0 && win == false)
+  puts display
+  puts "Wrong guesses #{incorrect}"
   puts "Enter your letter"
   guess = gets.chomp
-  h.each do |k, v| 
-  if (guess == k)
-  h[k] = guess
-  end
+  if word_array.none? { |w| w == guess} # add unfound letter to misses array, reduce turns
+      incorrect << guess
+      guesses -= 1
+      puts "You have #{guesses} left"
+  else
+    word_array.each_with_index do |letter, i| # add letter to display array
+      display[i] = letter if letter == guess
+    end
 end
-h.each do |k, v|
-  	puts v
-  end
-  guesses -= 1
-  end
+
 if guesses == 0
 	puts "You Lose, the word was #{word}"
-
+end
 end
 
 
